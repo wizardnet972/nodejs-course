@@ -4,7 +4,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const configFileName = path.join(__dirname, './tsconfig.json');
-const copies = [{ from: path.join(__dirname, './server/assets'), to: 'assets' }];
+const copies = [{ from: path.join(__dirname, './assets'), to: 'assets' }];
 
 module.exports = {
   externals: [nodeExternals()],
@@ -12,7 +12,7 @@ module.exports = {
   devtool: 'source-map',
 
   entry: {
-    www: './server/bin/www.ts'
+    www: './apps/server/bin/www.ts'
   },
 
   output: {

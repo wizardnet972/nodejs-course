@@ -4,29 +4,29 @@ import * as jwt from 'jsonwebtoken';
 
 export const register = [createUser, login];
 
-export function getAllUsers(req, res, next) {
-  const users = fromServices.getAllUsers();
+export async function getAllUsers(req, res, next) {
+  const users = await fromServices.getAllUsers();
 
   res.json({ users });
 }
 
-export function createUser(req, res, next) {
+export async function createUser(req, res, next) {
   const { email, password, name } = req.body;
 
-  const user = fromServices.createUser({ email, password, name });
+  const user = await fromServices.createUser({ email, password, name });
 
   res.json({ user });
 }
 
-export function login(req, res, next) {
+export async function login(req, res, next) {
   const { email, password } = req.body;
 
-  const user = fromServices.getUser({ email });
+  const user = await fromServices.getUser({ email });
   if (!user) {
     throw new AppHttpError(409, 'EXIST');
   }
 
-  if (user.password !== password) {
+  if (!user.comparePassword(password)) {
     throw new AppHttpError(401, 'UNAUTH');
   }
 
@@ -37,7 +37,7 @@ export function login(req, res, next) {
   res.end();
 }
 
-export function authorization(req, res, next) {
+export async function authorization(req, res, next) {
   debugger;
 
   const authorizationHeader = req.headers['authorization'];
@@ -50,7 +50,7 @@ export function authorization(req, res, next) {
 
   var decoded = jwt.verify(token, process.env.SECRET_JWT);
   const { id } = decoded;
-  const user = fromServices.findUser({ id });
+  const user = await fromServices.findUser({ id });
   if (!user) {
     throw new AppHttpError(401, 'unauthorize');
   }

@@ -20,7 +20,7 @@ module.exports = {
     filename: '[name].js'
   },
 
-  plugins: [new CopyWebpackPlugin([...copies]), new CheckerPlugin(), new NodemonWebpackPlugin()],
+  plugins: [new CopyWebpackPlugin([...copies]), new CheckerPlugin(), new NodemonWebpackPlugin({ nodeArgs: ['--inspect'] })],
 
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
